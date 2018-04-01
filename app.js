@@ -1,3 +1,4 @@
+require('babel-register');
 const express = require('express');
 const path = require('path');
 const logger = require('morgan');
@@ -21,6 +22,8 @@ const User = require('./models/user');
 const index = require('./routes/index');
 const api = require('./routes/api/index');
 const users = require('./routes/api/users');
+
+const authentication = require('./routes/api/authentication');
 
 const app = express();
 // Connect Mongoose
@@ -56,7 +59,7 @@ app.use('/api', api);
 app.use('/api/users', users);
 app.use('/', index);
 app.use('/*', index);
-
+app.use('/api/authentication', authentication);
 // configurate Passport
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
